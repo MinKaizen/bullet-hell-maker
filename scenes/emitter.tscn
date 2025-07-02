@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfykft3hc3ru5"]
+
+[ext_resource type="Texture2D" uid="uid://bi8b5lugf6w0u" path="res://assets/turtle.png" id="1_6rgli"]
+
+[node name="Emitter" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_6rgli")
