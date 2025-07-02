@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2ovkt1m2s212"]
+[gd_scene load_steps=4 format=3 uid="uid://c2ovkt1m2s212"]
 
 [ext_resource type="PackedScene" uid="uid://cdh1nn1psot3d" path="res://scenes/room.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bo472ot6qakbr" path="res://scenes/player.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://m6dq0q3etx1n" path="res://scenes/bullet.tscn" id="3_sugp2"]
 
 [node name="Main" type="Node2D"]
 
@@ -9,3 +10,42 @@
 
 [node name="Player" parent="." instance=ExtResource("2_0wfyh")]
 position = Vector2(231, 242)
+
+[node name="Bullet" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(233, 47)
+move_speed = 90
+direction = Vector2(0, 1)
+
+[node name="Bullet2" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(236, 177)
+move_speed = 130
+direction = Vector2(0, -1)
+
+[node name="Bullet3" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(322, 111)
+move_speed = 120
+
+[node name="Bullet4" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(153, 111)
+move_speed = 120
+direction = Vector2(1, 0)
+
+[node name="Bullet5" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(181, 65)
+move_speed = 120
+direction = Vector2(1, 1)
+
+[node name="Bullet6" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(299, 161)
+move_speed = 120
+direction = Vector2(-1, -1)
+
+[node name="Bullet7" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(297, 66)
+move_speed = 120
+direction = Vector2(-1, 1)
+
+[node name="Bullet8" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(168, 164)
+move_speed = 120
+direction = Vector2(1, -1)
