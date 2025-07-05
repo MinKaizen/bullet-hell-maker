@@ -1,0 +1,41 @@
+- WORKFLOW for designers
+	- Basically, create a container scene for testing patterns
+	- I want to be able to save patterns that I like
+- What should be set in the bullet SCENE?
+	- sprite
+	- size
+	- collision mask
+	- (flag) rotate sprite based on direction
+	- Basically the look and the size
+- Where should bullet params be set?
+	- At the pattern level, via a BulletOptions resource or something
+- refactor:
+	- resource: bullet params
+	- resource: pattern params
+	- (pattern is a group of bullets, basically what our current emitter is doing)
+	- From the inspector, I want to be able to
+		- select a bullet SCENE
+		- adjust the pattern (same as our current emitter scene)
+- Targeting (e.g. bullets that follow or semi-follow the player or some other target)
+- Damping (reduces speed until 0)
+- Phases
+	- phase end after duration
+	- phase end after collision
+	- phase end after param == somevalue
+- Bullets explode? On death? after phase ends?
+
+
+Design Decisions:
+- Patterns do not control bullets in 2nd+ order phases.
+- Bullets spawned during phases are controlled by the previous bullet (not the pattern)
+
+Bullet Init (at run time):
+These are values that are set by the pattern at run time. You can't (directly) set these values in the inspector
+- position
+- direction
+
+Pattern Init (at run time):
+Values that are set by the character (e.g. on a timer, on actions). You can't set these (directly) in the inspector
+- position
+- direction
+
