@@ -34,10 +34,7 @@ func _ready() -> void:
 	self.connect('all_bullets_fired', on_all_bullets_fired)
 
 func on_interval() -> void:
-	var bullet = BULLET_SCENE.instantiate()
-	bullet.direction = current_direction.rotated(deg_to_rad(bullet_angle_offset))
-	bullet.global_position = self.global_position + current_direction * arc_distance
-	get_parent().add_child(bullet)
+	fire_accelerating_bullet()
 	if amount >= 1:
 		current_direction = current_direction.rotated(deg_to_rad(arc_degrees / (amount -1)))
 	bullets_shot += 1
@@ -51,18 +48,29 @@ func on_all_bullets_fired() -> void:
 
 func do_oneshot() -> void:
 	for i in range(0, amount):
-		print(rad_to_deg(current_direction.angle()))
-		var bullet = BULLET_SCENE.instantiate()
-		bullet.direction = current_direction.rotated(deg_to_rad(bullet_angle_offset))
-		print(rad_to_deg(bullet.direction.angle()))
-		bullet.global_position = self.global_position + current_direction * arc_distance
-		get_parent().add_child(bullet)
+		fire_accelerating_bullet()
 		current_direction = current_direction.rotated(deg_to_rad(arc_degrees / (amount - 1)))
 	emit_signal('all_bullets_fired')
 
+func fire_accelerating_bullet(spd: float = 20.0, acc: float = 200.0) -> Node2D:
+	var dir = current_direction.rotated(deg_to_rad(bullet_angle_offset))
+	var pos = self.global_position + current_direction * arc_distance
+	var bullet = fire_bullet(pos, dir, spd, acc)
+	return bullet
 
+func fire_normal_bullet() -> Node2D:
+	var spd = 100.0
+	var acc = 0.0
+	var dir = current_direction.rotated(deg_to_rad(bullet_angle_offset))
+	var pos = self.global_position + current_direction * arc_distance
+	var bullet = fire_bullet(pos, dir, spd, acc)
+	return bullet
 
-
-
-
-
+func fire_bullet(pos: Vector2, dir: Vector2, speed: float, acc: float) -> Node2D:
+	var bullet = BULLET_SCENE.instantiate()
+	bullet.acceleration = acc
+	bullet.speed = speed
+	bullet.global_position = pos
+	bullet.direction = dir
+	get_parent().add_child(bullet)
+	return bullet

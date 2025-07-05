@@ -7,9 +7,8 @@
 script = ExtResource("1_8mlxh")
 duration = 9.0
 amount = 300
-arc_degrees = 2000.0
+arc_degrees = 10000.0
 arc_distance = -100
-bullet_angle_offset = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_6rgli")
