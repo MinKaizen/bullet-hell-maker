@@ -34,7 +34,7 @@ func _ready() -> void:
 	self.connect('all_bullets_fired', on_all_bullets_fired)
 
 func on_interval() -> void:
-	fire_accelerating_bullet()
+	fire_wave_bullet()
 	if amount >= 1:
 		current_direction = current_direction.rotated(deg_to_rad(arc_degrees / (amount -1)))
 	bullets_shot += 1
@@ -48,7 +48,7 @@ func on_all_bullets_fired() -> void:
 
 func do_oneshot() -> void:
 	for i in range(0, amount):
-		fire_accelerating_bullet()
+		fire_wave_bullet()
 		current_direction = current_direction.rotated(deg_to_rad(arc_degrees / (amount - 1)))
 	emit_signal('all_bullets_fired')
 
@@ -66,11 +66,30 @@ func fire_normal_bullet() -> Node2D:
 	var bullet = fire_bullet(pos, dir, spd, acc)
 	return bullet
 
-func fire_bullet(pos: Vector2, dir: Vector2, speed: float, acc: float) -> Node2D:
+func fire_wave_bullet() -> Node2D:
+	var spd = 0.0
+	var acc = 50.0
+	var dir = current_direction.rotated(deg_to_rad(bullet_angle_offset))
+	var pos = self.global_position + current_direction * arc_distance
+	var wave_amp = 100.0
+	var wave_freq = 1.0
+	var bullet = fire_bullet(pos, dir, spd, acc, wave_amp, wave_freq)
+	return bullet
+
+func fire_bullet(
+	pos: Vector2,
+	dir: Vector2,
+	speed: float,
+	acc: float,
+	wave_amp: float = 0.0,
+	wave_freq: float = 0.0) -> Node2D:
+
 	var bullet = BULLET_SCENE.instantiate()
 	bullet.acceleration = acc
 	bullet.speed = speed
 	bullet.global_position = pos
 	bullet.direction = dir
+	bullet.wave_amp = wave_amp
+	bullet.wave_freq = wave_freq
 	get_parent().add_child(bullet)
 	return bullet
