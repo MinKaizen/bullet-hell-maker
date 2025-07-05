@@ -5,6 +5,8 @@ extends CharacterBody2D
 @export var acceleration: float = 0
 @export var wave_amp: float = 0.0
 @export var wave_freq: float = 0.0
+@export var radial_velocity = -20.0 # degrees
+@export var radial_acc: float = 40.0 # degrees
 
 var t = 0
 
@@ -16,6 +18,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	t += delta
+	direction = direction.rotated(deg_to_rad(radial_velocity * delta))
+	radial_velocity += radial_acc * delta
 	current_speed += acceleration * delta
 	velocity = calculate_velocity(delta)
 	move_and_slide()

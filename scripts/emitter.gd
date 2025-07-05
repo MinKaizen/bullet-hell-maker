@@ -34,7 +34,7 @@ func _ready() -> void:
 	self.connect('all_bullets_fired', on_all_bullets_fired)
 
 func on_interval() -> void:
-	fire_wave_bullet()
+	fire_normal_bullet()
 	if amount >= 1:
 		current_direction = current_direction.rotated(deg_to_rad(arc_degrees / (amount -1)))
 	bullets_shot += 1
@@ -48,7 +48,7 @@ func on_all_bullets_fired() -> void:
 
 func do_oneshot() -> void:
 	for i in range(0, amount):
-		fire_wave_bullet()
+		fire_normal_bullet()
 		current_direction = current_direction.rotated(deg_to_rad(arc_degrees / (amount - 1)))
 	emit_signal('all_bullets_fired')
 
