@@ -5,8 +5,8 @@ extends CharacterBody2D
 @export var acceleration: float = 0
 @export var wave_amp: float = 0.0
 @export var wave_freq: float = 0.0
-@export var radial_velocity = -20.0 # degrees
-@export var radial_acc: float = 40.0 # degrees
+@export var radial_velocity = 0.0 # degrees
+@export var radial_acc: float = 0.0 # degrees
 
 var t = 0
 
