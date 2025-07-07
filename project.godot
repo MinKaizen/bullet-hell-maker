@@ -22,6 +22,13 @@ window/size/viewport_height=270
 window/size/mode=2
 window/stretch/mode="canvas_items"
 
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="enemy"
+2d_physics/layer_3="enemy_bullet"
+2d_physics/layer_4="floor"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
