@@ -1,21 +1,9 @@
-- WORKFLOW for designers
-	- Basically, create a container scene for testing patterns
-	- I want to be able to save patterns that I like
-- What should be set in the bullet SCENE?
-	- sprite
-	- size
-	- collision mask
-	- (flag) rotate sprite based on direction
-	- Basically the look and the size
-- Where should bullet params be set?
-	- At the pattern level, via a BulletOptions resource or something
-- refactor:
-	- resource: bullet params
-	- resource: pattern params
-	- (pattern is a group of bullets, basically what our current emitter is doing)
-	- From the inspector, I want to be able to
-		- select a bullet SCENE
-		- adjust the pattern (same as our current emitter scene)
+- Emitter works with resources! Pattern and Movement
+Next I want to refactor bullet.gd so that it uses the BulletMovement class
+- Allow designer to set a different bullet scene
+- Allow a list of bullet scenes, which get used alternatively
+
+Decisions:
 - Targeting (e.g. bullets that follow or semi-follow the player or some other target)
 - Damping (reduces speed until 0)
 - Phases
@@ -26,6 +14,12 @@
 
 
 Design Decisions:
+- What should be set in the bullet SCENE?
+	- sprite
+	- size
+	- collision mask
+	- (flag) rotate sprite based on direction
+	- Basically the look and the size
 - Patterns do not control bullets in 2nd+ order phases.
 - Bullets spawned during phases are controlled by the previous bullet (not the pattern)
 
