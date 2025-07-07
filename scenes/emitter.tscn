@@ -1,17 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfykft3hc3ru5"]
+[gd_scene load_steps=7 format=3 uid="uid://bfykft3hc3ru5"]
 
 [ext_resource type="Texture2D" uid="uid://bi8b5lugf6w0u" path="res://assets/turtle.png" id="1_6rgli"]
 [ext_resource type="Script" uid="uid://u5pv8y2meidi" path="res://scripts/emitter.gd" id="1_8mlxh"]
+[ext_resource type="Script" uid="uid://33okkdce3ulx" path="res://scripts/bullet_movement.gd" id="2_1htqb"]
+[ext_resource type="Script" uid="uid://b8g0cd6q2i3bq" path="res://scripts/bullet_pattern.gd" id="3_m220j"]
+
+[sub_resource type="Resource" id="Resource_0j0fo"]
+script = ExtResource("2_1htqb")
+speed = 50
+acceleration = 50.0
+wave_amp = 0.0
+wave_freq = 0.0
+radial_velocity = 0.0
+radial_acc = 0.0
+metadata/_custom_type_script = "uid://33okkdce3ulx"
+
+[sub_resource type="Resource" id="Resource_0eg73"]
+script = ExtResource("3_m220j")
+movement = SubResource("Resource_0j0fo")
+duration = 1.0
+amount = 100
+arc_degrees = 1000.0
+arc_distance = 20
+bullet_angle_offset = 90
+oneshot = false
+metadata/_custom_type_script = "uid://b8g0cd6q2i3bq"
 
 [node name="Emitter" type="Node2D"]
 script = ExtResource("1_8mlxh")
-duration = 9.0
-amount = 300
-arc_degrees = 10000.0
-arc_distance = -100
+pattern = SubResource("Resource_0eg73")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_6rgli")
 
 [node name="IntervalTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[node name="PauseTimer" type="Timer" parent="."]
 unique_name_in_owner = true
