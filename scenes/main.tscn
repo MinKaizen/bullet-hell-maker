@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2ovkt1m2s212"]
+[gd_scene load_steps=7 format=3 uid="uid://c2ovkt1m2s212"]
 
 [ext_resource type="PackedScene" uid="uid://cdh1nn1psot3d" path="res://scenes/room.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bo472ot6qakbr" path="res://scenes/player.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://bfykft3hc3ru5" path="res://scenes/emitter.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://clm473r23jmxi" path="res://scenes/boundary.tscn" id="4_tbgi4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
+size = Vector2(13, 283)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
+size = Vector2(490, 10)
 
 [node name="Main" type="Node2D"]
 
@@ -13,3 +20,21 @@ position = Vector2(231, 242)
 
 [node name="Emitter" parent="." instance=ExtResource("4_jyhfs")]
 position = Vector2(305, 115)
+
+[node name="Boundary" parent="." instance=ExtResource("4_tbgi4")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(0.5, 132.5)
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(480, 135)
+shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(237, 0)
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(240, 270)
+shape = SubResource("RectangleShape2D_tbgi4")

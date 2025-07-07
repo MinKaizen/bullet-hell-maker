@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://clm473r23jmxi"]
+
+[ext_resource type="Script" uid="uid://dx12dtn6r11i6" path="res://scenes/boundary.gd" id="1_6flaw"]
+
+[node name="Boundary" type="Area2D"]
+light_mask = 0
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_6flaw")
