@@ -11,12 +11,17 @@ extends CharacterBody2D
 @export var coyote_time: float = 0.2 # seconds after leaving ground where jump allowed
 @export var jump_buffer_time: float = 0.2 # seconds to buffer jump before landing
 
+# Fast-fall parameters
+@export var fast_fall_multiplier: float = 6.0
+@export var fast_fall_ramp_time: float = 0.1
+
 var gravity: float
 var max_jump_velocity: float
 var min_jump_velocity: float
 
 var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
+var _gravity_scale_current: float = 1.0
 
 func _ready() -> void:
 	# Compute gravity from desired apex time and height using kinematics: v = g * t, h = 0.5 * g * t^2
@@ -34,6 +39,7 @@ func _physics_process(delta: float) -> void:
 	_handle_timers(delta)
 	var input_dir := _get_input_direction()
 	_apply_horizontal(input_dir, delta)
+	_update_gravity_scale(delta)
 	_apply_gravity(delta)
 	_handle_jumps()
 	move_and_slide()
@@ -56,9 +62,17 @@ func _apply_horizontal(dir: float, delta: float) -> void:
 	var change: float = clamp(speed_diff, -max_change, max_change)
 	velocity.x += change
 
+func _update_gravity_scale(delta: float) -> void:
+	if is_on_floor():
+		_gravity_scale_current = 1.0
+		return
+	var target := fast_fall_multiplier if Input.is_action_pressed("move_down") else 1.0
+	var t: float = 1.0 if fast_fall_ramp_time <= 0.0 else min(1.0, delta / fast_fall_ramp_time)
+	_gravity_scale_current = lerp(_gravity_scale_current, target, t)
+
 func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		velocity.y += gravity * _gravity_scale_current * delta
 	else:
 		# Ensure we don't accumulate tiny residuals on ground
 		if velocity.y > 0:
@@ -99,3 +113,5 @@ func _after_move() -> void:
 	# If we hit the ceiling, stop upward velocity
 	if is_on_ceiling() and velocity.y < 0.0:
 		velocity.y = 0.0
+		# Reset gravity scale when hitting ceiling as well
+		_gravity_scale_current = 1.0
