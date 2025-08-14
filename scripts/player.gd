@@ -7,7 +7,7 @@ extends CharacterBody2D
 # Jump parameters
 @export var max_jump_height: float = 70.0 # pixels
 @export var min_jump_height: float = 20.0 # pixels (tap)
-@export var time_to_jump_apex: float = 0.37 # seconds to reach apex on full jump
+@export var time_to_jump_apex: float = 0.4 # seconds to reach apex on full jump
 @export var coyote_time: float = 0.2 # seconds after leaving ground where jump allowed
 @export var jump_buffer_time: float = 0.2 # seconds to buffer jump before landing
 
