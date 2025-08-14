@@ -12,8 +12,8 @@ extends CharacterBody2D
 @export var jump_buffer_time: float = 0.2 # seconds to buffer jump before landing
 
 # Fast-fall parameters
-@export var fast_fall_multiplier: float = 6.0
-@export var fast_fall_ramp_time: float = 0.1
+@export var fast_fall_multiplier: float = 10.0
+@export var fast_fall_ramp_time: float = 0.15
 
 # Bounce parameters (boost next jump after fast-fall landing)
 @export var bounce_window_time: float = 0.15
