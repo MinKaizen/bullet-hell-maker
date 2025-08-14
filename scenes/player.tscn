@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bo472ot6qakbr"]
+[gd_scene load_steps=6 format=3 uid="uid://bo472ot6qakbr"]
 
 [ext_resource type="Texture2D" uid="uid://dly7ntv86grqk" path="res://assets/player1.png" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://bsq0x6bqdo7gi" path="res://scripts/player.gd" id="1_g2els"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g2els"]
 animations = [{
@@ -21,6 +22,12 @@ height = 20.0
 radius = 3.0
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 8
+script = ExtResource("1_g2els")
+speed = 100.0
+jump_height = 10.0
+coyote_time = 0.2
+jump_buffer_time = 0.2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_g2els")

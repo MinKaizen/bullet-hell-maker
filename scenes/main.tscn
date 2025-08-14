@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2ovkt1m2s212"]
+[gd_scene load_steps=8 format=3 uid="uid://c2ovkt1m2s212"]
 
 [ext_resource type="PackedScene" uid="uid://cdh1nn1psot3d" path="res://scenes/room.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bo472ot6qakbr" path="res://scenes/player.tscn" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://bsq0x6bqdo7gi" path="res://scripts/player.gd" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bfykft3hc3ru5" path="res://scenes/emitter.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://clm473r23jmxi" path="res://scenes/boundary.tscn" id="4_tbgi4"]
 
@@ -17,6 +18,7 @@ size = Vector2(490, 10)
 
 [node name="Player" parent="." instance=ExtResource("2_0wfyh")]
 position = Vector2(231, 242)
+script = ExtResource("3_tbgi4")
 
 [node name="Emitter" parent="." instance=ExtResource("4_jyhfs")]
 position = Vector2(305, 115)
