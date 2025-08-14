@@ -15,6 +15,11 @@ extends CharacterBody2D
 @export var fast_fall_multiplier: float = 6.0
 @export var fast_fall_ramp_time: float = 0.1
 
+# Bounce parameters (boost next jump after fast-fall landing)
+@export var bounce_window_time: float = 0.15
+@export var bounce_jump_multiplier: float = 1.3
+@export var fast_fall_min_speed: float = 150.0
+
 var gravity: float
 var max_jump_velocity: float
 var min_jump_velocity: float
@@ -22,6 +27,8 @@ var min_jump_velocity: float
 var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _gravity_scale_current: float = 1.0
+var _bounce_timer: float = 0.0
+var _was_fast_falling: bool = false
 
 func _ready() -> void:
 	# Compute gravity from desired apex time and height using kinematics: v = g * t, h = 0.5 * g * t^2
@@ -69,6 +76,10 @@ func _update_gravity_scale(delta: float) -> void:
 	var target := fast_fall_multiplier if Input.is_action_pressed("move_down") else 1.0
 	var t: float = 1.0 if fast_fall_ramp_time <= 0.0 else min(1.0, delta / fast_fall_ramp_time)
 	_gravity_scale_current = lerp(_gravity_scale_current, target, t)
+	# Detect fast-fall while airborne (downward and increased gravity)
+	if not is_on_floor():
+		if velocity.y > fast_fall_min_speed and _gravity_scale_current > 1.5:
+			_was_fast_falling = true
 
 func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
@@ -87,6 +98,9 @@ func _handle_timers(delta: float) -> void:
 	# Jump buffer timer counts down
 	if _jump_buffer_timer > 0.0:
 		_jump_buffer_timer = max(0.0, _jump_buffer_timer - delta)
+	# Bounce timer counts down
+	if _bounce_timer > 0.0:
+		_bounce_timer = max(0.0, _bounce_timer - delta)
 	# Check for jump press to buffer
 	if Input.is_action_just_pressed("jump"):
 		_jump_buffer_timer = jump_buffer_time
@@ -100,7 +114,12 @@ func _consume_buffered_jump() -> bool:
 func _handle_jumps() -> void:
 	# Start jump if buffered and can jump
 	if _consume_buffered_jump() and _can_jump():
-		velocity.y = max_jump_velocity
+		# Apply bounce boost if within bounce window
+		if _bounce_timer > 0.0:
+			velocity.y = max_jump_velocity * bounce_jump_multiplier
+			_bounce_timer = 0.0
+		else:
+			velocity.y = max_jump_velocity
 		_jump_buffer_timer = 0.0
 		_coyote_timer = 0.0
 	# Variable jump height: when jump released, apply cut to reach min height
@@ -115,3 +134,8 @@ func _after_move() -> void:
 		velocity.y = 0.0
 		# Reset gravity scale when hitting ceiling as well
 		_gravity_scale_current = 1.0
+	# If we landed this frame, start bounce window if fast-falling before
+	if is_on_floor():
+		if _was_fast_falling:
+			_bounce_timer = bounce_window_time
+		_was_fast_falling = false
