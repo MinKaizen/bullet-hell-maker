@@ -7,8 +7,8 @@
 
 [sub_resource type="Resource" id="Resource_0j0fo"]
 script = ExtResource("2_1htqb")
-speed = 50
-acceleration = 50.0
+speed = 20
+acceleration = 150.0
 wave_amp = 0.0
 wave_freq = 0.0
 radial_velocity = 0.0
@@ -19,8 +19,8 @@ metadata/_custom_type_script = "uid://33okkdce3ulx"
 script = ExtResource("3_m220j")
 movement = SubResource("Resource_0j0fo")
 duration = 1.0
-amount = 100
-arc_degrees = 1000.0
+amount = 30
+arc_degrees = 1400.0
 arc_distance = 20
 bullet_angle_offset = 90
 oneshot = false
