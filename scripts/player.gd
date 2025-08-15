@@ -27,7 +27,7 @@ var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _gravity_scale_current: float = 1.0
 var _bounce_timer: float = 0.0
-var _was_fast_falling: bool = false
+var _is_fast_falling: bool = false
 
 func _ready() -> void:
 	# Compute gravity from desired apex time and height using kinematics: v = g * t, h = 0.5 * g * t^2
@@ -48,8 +48,8 @@ func _physics_process(delta: float) -> void:
 	_update_gravity_scale(delta)
 	_apply_gravity(delta)
 	# Detect fast-fall while airborne (downward and increased gravity)
-	if not is_on_floor() and not _was_fast_falling and Input.is_action_just_pressed("move_down"):
-		_was_fast_falling = true
+	if not is_on_floor() and not _is_fast_falling and Input.is_action_just_pressed("move_down"):
+		_is_fast_falling = true
 	_handle_jumps()
 	move_and_slide()
 	_after_move()
@@ -75,7 +75,7 @@ func _update_gravity_scale(delta: float) -> void:
 	if is_on_floor():
 		_gravity_scale_current = 1.0
 		return
-	var target := fast_fall_multiplier if _was_fast_falling else 1.0
+	var target := fast_fall_multiplier if _is_fast_falling else 1.0
 	var t: float = 1.0 if fast_fall_ramp_time <= 0.0 else min(1.0, delta / fast_fall_ramp_time)
 	_gravity_scale_current = lerp(_gravity_scale_current, target, t)
 
@@ -134,6 +134,6 @@ func _after_move() -> void:
 		_gravity_scale_current = 1.0
 	# If we landed this frame, start bounce window if fast-falling before
 	if is_on_floor():
-		if _was_fast_falling:
+		if _is_fast_falling:
 			_bounce_timer = bounce_window_time
-		_was_fast_falling = false
+		_is_fast_falling = false
