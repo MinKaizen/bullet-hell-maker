@@ -48,9 +48,8 @@ func _physics_process(delta: float) -> void:
 	_update_gravity_scale(delta)
 	_apply_gravity(delta)
 	# Detect fast-fall while airborne (downward and increased gravity)
-	if not is_on_floor():
-		if Input.is_action_just_pressed("move_down"):
-			_was_fast_falling = true
+	if not is_on_floor() and not _was_fast_falling and Input.is_action_just_pressed("move_down"):
+		_was_fast_falling = true
 	_handle_jumps()
 	move_and_slide()
 	_after_move()
@@ -76,7 +75,7 @@ func _update_gravity_scale(delta: float) -> void:
 	if is_on_floor():
 		_gravity_scale_current = 1.0
 		return
-	var target := fast_fall_multiplier if Input.is_action_pressed("move_down") else 1.0
+	var target := fast_fall_multiplier if _was_fast_falling else 1.0
 	var t: float = 1.0 if fast_fall_ramp_time <= 0.0 else min(1.0, delta / fast_fall_ramp_time)
 	_gravity_scale_current = lerp(_gravity_scale_current, target, t)
 
