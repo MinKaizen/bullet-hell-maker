@@ -29,8 +29,7 @@ func physics_update(delta: float) -> void:
 	# variable jump height: cut if released
 	if not jump_ended and not Input.is_action_pressed("jump"):
 		jump_ended = true
-		# player.velocity.y = min(player.velocity.y - player.max_jump_velocity + player.min_jump_velocity, 0.0)
-		player.velocity.y = 0.5 * player.velocity.y
+		player.velocity.y = player.short_jump_multiplier * player.velocity.y
 
 	# horizontal and gravity
 	var dir := Input.get_axis("move_left", "move_right")
