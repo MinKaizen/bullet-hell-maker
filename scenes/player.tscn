@@ -1,7 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bo472ot6qakbr"]
+[gd_scene load_steps=12 format=3 uid="uid://bo472ot6qakbr"]
 
 [ext_resource type="Texture2D" uid="uid://dly7ntv86grqk" path="res://assets/player1.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bsq0x6bqdo7gi" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Script" uid="uid://bcyix0x6cn1jj" path="res://scripts/state_machine.gd" id="2_sm"]
+[ext_resource type="Script" uid="uid://0kqfg2cn0wpe" path="res://scripts/player_idle.gd" id="4_idle"]
+[ext_resource type="Script" uid="uid://bvrtgtjw1qcp6" path="res://scripts/player_running.gd" id="5_run"]
+[ext_resource type="Script" uid="uid://c5herfolnjg3j" path="res://scripts/player_jumping.gd" id="6_jump"]
+[ext_resource type="Script" uid="uid://cidte7svoy8ub" path="res://scripts/player_falling.gd" id="7_fall"]
+[ext_resource type="Script" uid="uid://cqjpea4q2hk1f" path="res://scripts/player_fast_falling.gd" id="8_ffall"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g2els"]
 animations = [{
@@ -39,3 +45,21 @@ shape = SubResource("CapsuleShape2D_qhqgy")
 position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_3vyb7")
 debug_color = Color(0.816545, 0.331217, 0.609052, 0.42)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_sm")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_idle")
+
+[node name="Running" type="Node" parent="StateMachine"]
+script = ExtResource("5_run")
+
+[node name="Jumping" type="Node" parent="StateMachine"]
+script = ExtResource("6_jump")
+
+[node name="Falling" type="Node" parent="StateMachine"]
+script = ExtResource("7_fall")
+
+[node name="FastFalling" type="Node" parent="StateMachine"]
+script = ExtResource("8_ffall")
