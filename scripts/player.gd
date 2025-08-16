@@ -25,6 +25,8 @@ extends CharacterBody2D
 @export var dash_min_duration: float = 0.08
 @export var dash_decay_duration: float = 0.18
 @export var dash_preserved_min_speed: float = 350
+@export var dash_cooldown: float = 0.7
+@export var dash_max_air_tokens: int = 1
 
 var gravity: float
 var max_jump_velocity: float
@@ -34,10 +36,13 @@ var facing: int = 1
 var dash_preserve_speed_active: bool = false
 var dash_preserved_speed: float = 0.0
 var dash_decay_rate = (dash_speed - move_speed) / dash_decay_duration
+var dash_timer: float = 0.0
+var dash_air_tokens: int = dash_max_air_tokens
 
 func _ready() -> void:
 	gravity = 2.0 * max_jump_height / (time_to_jump_apex * time_to_jump_apex)
 	max_jump_velocity = -gravity * time_to_jump_apex
+	dash_air_tokens = dash_max_air_tokens
 
 func _physics_process(delta: float) -> void:
 	# update facing from input
@@ -46,3 +51,5 @@ func _physics_process(delta: float) -> void:
 		facing = int(sign(dir))
 	if dash_preserved_speed > 0.0:
 		dash_preserved_speed = max(dash_preserved_speed - dash_decay_rate * delta / 2, dash_preserved_min_speed)
+	if dash_timer > 0.0:
+		dash_timer = max(0, dash_timer - delta)

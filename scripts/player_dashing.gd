@@ -16,6 +16,7 @@ func _ready() -> void:
 	assert(player != null)
 
 func enter(_prev: String, data := {}) -> void:
+	player.dash_timer = player.dash_cooldown
 	dir = int(sign(data.get("dir", player.facing)))
 	if dir == 0:
 		dir = player.facing if player.facing != 0 else 1
@@ -48,6 +49,7 @@ func physics_update(delta: float) -> void:
 	if player.is_on_floor() and Input.is_action_just_pressed("jump"):
 		player.dash_preserve_speed_active = true
 		player.dash_preserved_speed = abs(vx)
+		player.dash_air_tokens -= 1
 		finished.emit(PATH_JUMPING)
 		return
 

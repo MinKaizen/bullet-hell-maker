@@ -32,7 +32,8 @@ func physics_update(delta: float) -> void:
 		jump_ended = true
 		player.velocity.y = player.short_jump_multiplier * player.velocity.y
 
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_just_pressed("dash") and player.dash_timer == 0.0 and player.dash_air_tokens > 0:
+		player.dash_air_tokens -= 1
 		var dash_dir := int(sign(Input.get_axis("move_left", "move_right")))
 		finished.emit(PATH_DASH, {"dir": dash_dir})
 		return

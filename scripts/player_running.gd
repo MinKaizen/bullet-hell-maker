@@ -17,6 +17,7 @@ func _ready() -> void:
 func enter(_prev: String, _data := {}) -> void:
 	player.coyote_timer = player.coyote_time
 	player.dash_preserve_speed_active = false
+	player.dash_air_tokens = player.dash_max_air_tokens
 
 func physics_update(delta: float) -> void:
 	player.bounce_timer = max(0, player.bounce_timer - delta)
@@ -32,7 +33,7 @@ func physics_update(delta: float) -> void:
 	if not player.is_on_floor():
 		finished.emit(PATH_FALLING)
 		return
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_just_pressed("dash") and player.dash_timer == 0.0:
 		var dash_dir := int(sign(Input.get_axis("move_left", "move_right")))
 		finished.emit(PATH_DASH, {"dir": dash_dir})
 		return
