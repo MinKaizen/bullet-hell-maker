@@ -1,4 +1,17 @@
-extends PlayerState
+extends State
+
+const PATH_IDLE := "Idle"
+const PATH_RUNNING := "Running"
+const PATH_JUMPING := "Jumping"
+const PATH_FALLING := "Falling"
+const PATH_FAST_FALLING := "FastFalling"
+
+var player: Node
+
+func _ready() -> void:
+	await owner.ready
+	player = owner as Node
+	assert(player != null)
 
 var _ramp: float = 0.0
 var jump_buffer_timer: float
@@ -23,7 +36,7 @@ func physics_update(delta: float) -> void:
 
 	# gravity
 	_ramp = min(1.0, _ramp + delta / player.fast_fall_ramp_time)
-	var gravity := player.gravity * player.fast_fall_multiplier * _ramp
+	var gravity: float = player.gravity * player.fast_fall_multiplier * _ramp
 	player.velocity.y += gravity * delta
 
 	player.move_and_slide()
