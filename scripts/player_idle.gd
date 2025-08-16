@@ -5,6 +5,7 @@ const PATH_RUNNING := "Running"
 const PATH_JUMPING := "Jumping"
 const PATH_FALLING := "Falling"
 const PATH_FAST_FALLING := "FastFalling"
+const PATH_DASH := "Dash"
 
 var player: Node
 
@@ -15,6 +16,7 @@ func _ready() -> void:
 
 func enter(_prev: String, _data := {}) -> void:
 	player.coyote_timer = player.coyote_time
+	player.dash_preserve_speed_active = false
 
 func physics_update(delta: float) -> void:
 	player.bounce_timer = max(0, player.bounce_timer - delta)
@@ -28,6 +30,10 @@ func physics_update(delta: float) -> void:
 		return
 	elif Input.is_action_pressed("jump"):
 		finished.emit(PATH_JUMPING)
+		return
+	elif Input.is_action_just_pressed("dash"):
+		var dash_dir := int(sign(Input.get_axis("move_left", "move_right")))
+		finished.emit(PATH_DASH, {"dir": dash_dir})
 		return
 	elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		finished.emit(PATH_RUNNING)

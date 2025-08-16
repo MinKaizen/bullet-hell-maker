@@ -5,6 +5,7 @@ const PATH_RUNNING := "Running"
 const PATH_JUMPING := "Jumping"
 const PATH_FALLING := "Falling"
 const PATH_FAST_FALLING := "FastFalling"
+const PATH_DASH := "Dash"
 
 var player: Node
 
@@ -31,9 +32,17 @@ func physics_update(delta: float) -> void:
 		jump_ended = true
 		player.velocity.y = player.short_jump_multiplier * player.velocity.y
 
+	if Input.is_action_just_pressed("dash"):
+		var dash_dir := int(sign(Input.get_axis("move_left", "move_right")))
+		finished.emit(PATH_DASH, {"dir": dash_dir})
+		return
+
 	# horizontal and gravity
 	var dir := Input.get_axis("move_left", "move_right")
-	player.velocity.x = dir * player.move_speed
+	if player.dash_preserve_speed_active:
+		player.velocity.x = dir * player.dash_preserved_speed
+	else:
+		player.velocity.x = dir * player.move_speed
 	player.velocity.y += player.gravity * delta
 	player.move_and_slide()
 

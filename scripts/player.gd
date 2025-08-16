@@ -20,14 +20,29 @@ extends CharacterBody2D
 @export var bounce_window_time: float = 0.15
 @export var bounce_jump_multiplier: float = 1.35
 
+# Dash parameters
+@export var dash_speed: float = 600.0
+@export var dash_min_duration: float = 0.08
+@export var dash_decay_duration: float = 0.18
+@export var dash_preserved_min_speed: float = 350
+
 var gravity: float
 var max_jump_velocity: float
 var coyote_timer: float = 0.0
 var bounce_timer: float = 0.0
+var facing: int = 1
+var dash_preserve_speed_active: bool = false
+var dash_preserved_speed: float = 0.0
+var dash_decay_rate = (dash_speed - move_speed) / dash_decay_duration
 
 func _ready() -> void:
 	gravity = 2.0 * max_jump_height / (time_to_jump_apex * time_to_jump_apex)
 	max_jump_velocity = -gravity * time_to_jump_apex
 
-func _physics_process(_delta: float) -> void:
-	pass
+func _physics_process(delta: float) -> void:
+	# update facing from input
+	var dir := Input.get_axis("move_left", "move_right")
+	if dir != 0:
+		facing = int(sign(dir))
+	if dash_preserved_speed > 0.0:
+		dash_preserved_speed = max(dash_preserved_speed - dash_decay_rate * delta / 2, dash_preserved_min_speed)
